@@ -1,26 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Home from "./pages/Home/Home";
+import Watch from "./pages/watch/Watch";
+import Register from "./pages/register/Register";
+import Login from "./components/login/Login";
+import {BrowserRouter as Router, Switch , Route, Redirect} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from './store/hooks/redux';
+import authentication from "./functions/auth";
 
-function App() {
+
+
+
+const App = () =>  {
+    const dispatch = useAppDispatch();
+    const {user, isLoading, error} = useAppSelector(state => state.userRegisterReduser);
+     let auth;
+
+
+    authentication(user)(dispatch);
+    auth = user.isAuth;
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/">
+              {auth ? <Home /> : <Redirect to='/register'/>}
+               </Route>
+            <Route exact path="/register">
+              {!auth ? <Register /> : <Redirect to='/'/> }
+            </Route>
+            <Route exact path="/login">
+              {!auth ? <Login /> : <Redirect to='/'/> }
+               </Route>
+            {auth && ( <>
+                <Route path="/movies">
+              <Home type='movies'/>
+            </Route>
+              <Route path="/series">
+              <Home type='series'/>
+              </Route>
+              <Route path="/watch">
+              <Watch/>
+              </Route>
+             </> )
+            }
+
+          </Switch>
+        </div>
+      </Router>
+      );
 }
 
 export default App;

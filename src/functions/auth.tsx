@@ -1,13 +1,11 @@
-import Cookies from "cookies-js";
 import jwt_decode from "jwt-decode";
 import {IUser} from "../store/modules/IUser";
 import {userFatchingSuccess} from "../store/reducers/CreateUser";
-import {useAppDispatch} from "../store/hooks/redux";
-
- const authentication = (user:any) =>  {
-    const dispatch = useAppDispatch();
+import { reactLocalStorage } from "reactjs-localstorage";
+ const authentication = (user:any) =>  (dispatch:any) => {
     if(user.isAuth === false) {
-        const token =  Cookies.get('hesh');
+        let token: any;
+        token = reactLocalStorage.get('hesh');;
         if(token == undefined || token == ''){
             return false;
         }
@@ -23,11 +21,7 @@ import {useAppDispatch} from "../store/hooks/redux";
             return true;
         }
     }
-    return  (
-        <div>
-        0
-        </div>
-    );
+
 }
 export default authentication;
 

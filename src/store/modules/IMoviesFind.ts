@@ -1,0 +1,15 @@
+export  default interface IMoviesFind {
+    _id:string,
+    title:string,
+    desc:string,
+    img:string,
+    imgTitle:string,
+    trailer:string,
+    video:string,
+    year:string,
+    limit:number,
+    ganre:string,
+    isSeries:boolean,
+    createdAt:string,
+    updatedAt:string,
+   }
